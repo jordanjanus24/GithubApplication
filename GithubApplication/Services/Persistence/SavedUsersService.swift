@@ -10,7 +10,8 @@ import UIKit
 import CoreData
 
 class SavedUsersService {
-    static var context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    static var viewContext: NSManagedObjectContext!
+    static var backgroundContext: NSManagedObjectContext!
     static func saveUsers(_ users: [GithubUser]) {
         users.forEach { user in
             do {
@@ -25,7 +26,7 @@ class SavedUsersService {
     }
     static func getAllUsers() -> [SavedUser] {
         do {
-            let users = try context.fetch(SavedUser.fetchRequest())
+            let users = try viewContext.fetch(SavedUser.fetchRequest())
             return users
         }
         catch {
@@ -34,12 +35,12 @@ class SavedUsersService {
     }
     static func createUser(githubUser: GithubUser) {
         var user = githubUser
-        let newUser = SavedUser(context: context)
+        let newUser = SavedUser(context: backgroundContext)
         user.mapToSavedUser(savedUser: newUser)
         saveContext()
     }
     static func deleteItem(item: SavedUser) {
-        context.delete(item)
+        backgroundContext.delete(item)
         saveContext()
     }
     static func updateNote(id: Int64, note: String) {
@@ -48,7 +49,7 @@ class SavedUsersService {
             user.note = note
             saveContext()
         } catch {
-            context.rollback()
+            viewContext.rollback()
         }
         
     }
@@ -57,7 +58,7 @@ class SavedUsersService {
        request.fetchLimit = 1
        request.predicate = NSPredicate(
            format: "id = %d", id)
-       let user = try context.fetch(request)[0]
+       let user = try viewContext.fetch(request)[0]
        return user
     }
     
@@ -67,18 +68,18 @@ class SavedUsersService {
        request.predicate = NSPredicate(
            format: "id = %d", id)
         do {
-            let users = try context.fetch(request)
+            let users = try viewContext.fetch(request)
             return users.count >= 1
         } catch {
             return false
         }
     }
-    private static func saveContext(){
-        if context.hasChanges {
+    static func saveContext(){
+        if backgroundContext.hasChanges {
             do {
-                try context.save()
+                try backgroundContext.save()
             } catch{
-                context.rollback()
+                backgroundContext.rollback()
             }
         }
     }

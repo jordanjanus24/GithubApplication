@@ -17,20 +17,14 @@ class NormalViewCell: UITableViewCell, ReusableCell {
     func configure(_ user: User) {
         username.text = user.login.capitalizedSentence
         details.text = user.type
-        Reachability.isConnectedToNetwork { isConnected in
-            if isConnected == true {
-                userProfile.loadFrom(user.avatarUrl, {}) { data in
-                    
-                }
-            }
-        }
-        
+        userProfile.loadFrom(user.avatarUrl)
     }
     override func awakeFromNib() {
         super.awakeFromNib()
         let view = UIView.init(frame: self.bounds)
         view.backgroundColor = .secondarySystemBackground
         self.selectedBackgroundView = view
+        userProfile.image = nil
         userProfile.layer.cornerRadius = (userProfile.frame.size.width) / 2
         userProfile.clipsToBounds = true
         userProfile.layer.borderWidth = 1.0

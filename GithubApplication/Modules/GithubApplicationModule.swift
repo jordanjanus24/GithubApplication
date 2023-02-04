@@ -13,17 +13,21 @@ class GithubApplicationModule {
     
     static var storyboardId: String = "Main"
     
+    static var operationQueue = OperationQueue()
+    static var cache = NSCache<NSString, AnyObject>()
     
-    lazy var apiService: GithubService = GithubService()
+    lazy var apiService: GithubServiceProtocol = GithubService()
     lazy var usersViewModel: UsersViewModelProtocol = UsersViewModel(apiService)
+    lazy var detailsViewModel: DetailsViewModelProtocol = DetailsViewModel(apiService)
     
     lazy var moduleData: GithubApplicationModuleData = GithubApplicationModuleData(githubService: apiService)
-    lazy var viewModels: GithubApplicationViewModels = GithubApplicationViewModels(usersViewModel: usersViewModel)
+    lazy var viewModels: GithubApplicationViewModels = GithubApplicationViewModels(usersViewModel: usersViewModel, detailsViewModel: detailsViewModel)
     
     private var coordinator: GithubApplicationCoordinatorProtocol!
     
     init(coordinator: GithubApplicationCoordinatorProtocol) {
         self.coordinator = coordinator
+        GithubApplicationModule.operationQueue.maxConcurrentOperationCount = 1
     }
     
     func startInitialFlow(_ navController: UINavigationController) {
@@ -34,13 +38,15 @@ class GithubApplicationModule {
     }
     func showDetailsView(_ navController: UINavigationController) {
         let vc = DetailsViewController.instantiate(GithubApplicationModule.storyboardId)
+        vc.viewModel = viewModels.detailsViewModel
         navController.pushViewController(vc, animated: true)
     }
 }
 
 struct GithubApplicationModuleData {
-    let githubService: GithubService
+    let githubService: GithubServiceProtocol
 }
 struct GithubApplicationViewModels {
     let usersViewModel: UsersViewModelProtocol
+    let detailsViewModel: DetailsViewModelProtocol
 }

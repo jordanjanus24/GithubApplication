@@ -1,5 +1,5 @@
 //
-//  InvertedViewCell.swift
+//  NoteViewCell.swift
 //  GithubApplication
 //
 //  Created by Janus Jordan on 2/4/23.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class InvertedViewCell: UITableViewCell, ReusableCell {
+class NoteViewCell: UITableViewCell, ReusableCell {
     static var cellHeight: CGFloat = 70
     @IBOutlet weak var userProfile: UIImageView!
     @IBOutlet weak var username: UILabel!
@@ -16,15 +16,7 @@ class InvertedViewCell: UITableViewCell, ReusableCell {
     func configure(_ user: User) {
         username.text = user.login.capitalizedSentence
         details.text = user.type
-        Reachability.isConnectedToNetwork { isConnected in
-            if isConnected == true {
-                userProfile.loadFrom(user.avatarUrl,{
-                    self.userProfile.invertImageColor()
-                })  { data in
-                    
-                }
-            }
-        }
+        userProfile.loadFrom(user.avatarUrl)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

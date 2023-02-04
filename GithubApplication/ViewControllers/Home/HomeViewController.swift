@@ -32,12 +32,14 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setDataSource()
         bindView()
     }
     private func setupUI() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
+    }
+    private func setDataSource() {
         dataSource = BasicReusableTableDataSource(tableView, items: users, configureCell: { table, user, indexPath -> ReusableCell in
             if user.note == "" {
                 if (indexPath.row + 1) % 4 == 0 {

@@ -126,10 +126,18 @@
 		EDA4C99C298DE15000379EAE /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				EDEBACFB298D850900E5B7A0 /* Cells */,
 				EDEBACFD298D850900E5B7A0 /* HomeViewController.swift */,
 				EDEBAD03298D850900E5B7A0 /* UsersViewModel.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		EDB3CA3A298EC1C800E505D7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		EDEBACC8298D847F00E5B7A0 = {
@@ -158,7 +166,6 @@
 				EDEBACF6298D850100E5B7A0 /* Models */,
 				EDA4C99A298DCEF000379EAE /* Modules */,
 				EDEBAD05298D850900E5B7A0 /* Services */,
-				EDEBACFB298D850900E5B7A0 /* Views */,
 				EDA4C99B298DE13800379EAE /* ViewControllers */,
 				EDEBACF3298D850100E5B7A0 /* Utils */,
 				EDEBACE0298D848100E5B7A0 /* Assets.xcassets */,
@@ -196,7 +203,6 @@
 				EDF3118B298E1E76000F121F /* String+Extensions.swift */,
 				EDF31190298E5933000F121F /* TableViewDataSource.swift */,
 				EDF31192298E6984000F121F /* Array+Extensions.swift */,
-				EDB3CA2F298E92FD00E505D7 /* Reachability.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -211,14 +217,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		EDEBACFB298D850900E5B7A0 /* Views */ = {
+		EDEBACFB298D850900E5B7A0 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				EDA4C99F298E0F3F00379EAE /* NormalViewCell.swift */,
 				EDF31199298E6EAA000F121F /* NoteViewCell.swift */,
 				EDF3119E298E795F000F121F /* InvertedViewCell.swift */,
 			);
-			path = Views;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		EDEBAD05298D850900E5B7A0 /* Services */ = {
@@ -234,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				EDEBAD07298D850900E5B7A0 /* GithubService.swift */,
+				EDB3CA2F298E92FD00E505D7 /* Reachability.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -249,6 +256,7 @@
 		EDF3118E298E2B71000F121F /* Details */ = {
 			isa = PBXGroup;
 			children = (
+				EDB3CA3A298EC1C800E505D7 /* Views */,
 				EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */,
 				EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */,
 				EDB3CA35298E9B8E00E505D7 /* DetailsViewController.swift */,
@@ -529,6 +537,7 @@
 				DEVELOPMENT_TEAM = H5LRKK9WM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubApplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GIthubUsers;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -557,6 +566,7 @@
 				DEVELOPMENT_TEAM = H5LRKK9WM7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GithubApplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GIthubUsers;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

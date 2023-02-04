@@ -9,32 +9,35 @@ import Foundation
 import UIKit
 
 extension UIImageView {
-    func loadFrom(_ url: String,_ completion: @escaping () -> Void = {}, _ dataCompletion: @escaping (Data) -> Void = { _ in } ) {
+    func loadFrom(_ url: String, _ completion: @escaping () -> Void = {}) {
         guard let url = URL(string: url) else {
             return
         }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                return
+        if let cachedImage = GithubApplicationModule.cache.object(forKey: url.absoluteString as NSString) as? UIImage {
+            self.image = cachedImage
+            completion()
+        } else {
+            let operation = BlockOperation {
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    guard error == nil else {
+                        return
+                    }
+                    guard let httpURLResponse = response as? HTTPURLResponse,
+                          httpURLResponse.statusCode == 200,
+                          let data = data else {
+                        return
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        let image = UIImage(data: data)
+                        self?.image = image
+                        completion()
+                        GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
+                    }
+                }.resume()
             }
-            guard let httpURLResponse = response as? HTTPURLResponse,
-                  httpURLResponse.statusCode == 200,
-                  let data = data else {
-                return
-            }
-            dataCompletion(data)
-            DispatchQueue.main.async { [weak self] in
-                let image = UIImage(data: data)
-                self?.image = image
-                completion()
-            }
-        }.resume()
-    }
-    func loadFrom(_ data: Data) {
-        DispatchQueue.main.async { [weak self] in
-            let image = UIImage(data: data)
-            self?.image = image
+            GithubApplicationModule.operationQueue.addOperation(operation)
         }
+       
     }
     func invertImageColor() {
         let coreImage = CIImage(image: self.image!)

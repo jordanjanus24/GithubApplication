@@ -8,7 +8,12 @@
 import SwiftUI
 
 class DetailsViewController: UIHostingController<DetailsView>, Storyboarded {
+    
+    var viewModel: DetailsViewModelProtocol!
+    
     required init?(coder: NSCoder) {
-        super.init(coder: coder, rootView: DetailsView())
+        super.init(coder: coder, rootView:
+            DetailsView()
+        )
     }
 }
