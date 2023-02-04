@@ -8,8 +8,14 @@
 import Foundation
 import CoreData
 import UIKit
+import SwiftUI
 
-class GithubApplicationModule {
+protocol GithubApplicationModuleProtocol {
+    func startInitialFlow(_ navController: UINavigationController)
+    func showDetailsView(_ navController: UINavigationController, _ loginKey: String)
+}
+
+class GithubApplicationModule: GithubApplicationModuleProtocol {
     
     static var storyboardId: String = "Main"
     
@@ -18,10 +24,9 @@ class GithubApplicationModule {
     
     lazy var apiService: GithubServiceProtocol = GithubService()
     lazy var usersViewModel: UsersViewModelProtocol = UsersViewModel(apiService)
-    lazy var detailsViewModel: DetailsViewModelProtocol = DetailsViewModel(apiService)
     
     lazy var moduleData: GithubApplicationModuleData = GithubApplicationModuleData(githubService: apiService)
-    lazy var viewModels: GithubApplicationViewModels = GithubApplicationViewModels(usersViewModel: usersViewModel, detailsViewModel: detailsViewModel)
+    lazy var viewModels: GithubApplicationViewModels = GithubApplicationViewModels(usersViewModel: usersViewModel)
     
     private var coordinator: GithubApplicationCoordinatorProtocol!
     
@@ -36,9 +41,9 @@ class GithubApplicationModule {
         vc.coordinator = coordinator
         navController.pushViewController(vc, animated: false)
     }
-    func showDetailsView(_ navController: UINavigationController) {
-        let vc = DetailsViewController.instantiate(GithubApplicationModule.storyboardId)
-        vc.viewModel = viewModels.detailsViewModel
+    func showDetailsView(_ navController: UINavigationController, _ loginKey: String) {
+        let detailsViewModel = DetailsViewModel(apiService, loginKey)
+        let vc = UIHostingController(rootView: DetailsView().environmentObject(detailsViewModel))
         navController.pushViewController(vc, animated: true)
     }
 }
@@ -48,5 +53,4 @@ struct GithubApplicationModuleData {
 }
 struct GithubApplicationViewModels {
     let usersViewModel: UsersViewModelProtocol
-    let detailsViewModel: DetailsViewModelProtocol
 }

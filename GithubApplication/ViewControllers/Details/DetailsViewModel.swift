@@ -9,22 +9,25 @@ import Foundation
 import Combine
 
 protocol DetailsViewModelProtocol {
-    var userPublisher: Published<User?>.Publisher { get }
-    func fetchUser(_ id: Int64)
+    func fetchUser()
 }
 
 class DetailsViewModel: DetailsViewModelProtocol, ObservableObject {
     
     @Published internal var user: User? = nil
-    var userPublisher: Published<User?>.Publisher { $user }
     
+    private var loginKey: String!
     private var apiManager: GithubServiceProtocol!
     
-    init(_ apiManager: GithubServiceProtocol) {
+    init(_ apiManager: GithubServiceProtocol, _ loginKey: String) {
         self.apiManager = apiManager
+        self.loginKey = loginKey
     }
     
-    func fetchUser(_ id: Int64) {
-        
+    func fetchUser() {
+        apiManager.fetchUser(loginKey: self.loginKey) { [weak self] user in
+            self?.user = user?.toUser()
+            SavedUsersService.updateDetails(id: user?.id, githubUser: user)
+        }
     }
 }

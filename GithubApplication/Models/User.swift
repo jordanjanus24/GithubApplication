@@ -28,5 +28,17 @@ struct User: Hashable {
     let type: String
     let siteAdmin: Bool
     let note: String
+    let name: String
+    let company: String
+    let blog: String
+    let location: String
+    let email: String
+    let hireable: String
+    let bio: String
+    let twitterUsername: String
+    let publicRepos: Int
+    let publicGists: Int
+    let followers: Int
+    let following: Int
     
 }

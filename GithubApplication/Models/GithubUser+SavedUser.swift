@@ -27,6 +27,18 @@ extension GithubUser {
         savedUser.receivedEventsUrl = self.receivedEventsUrl
         savedUser.type = self.type
         savedUser.siteAdmin = self.siteAdmin
+        savedUser.name = self.name
+        savedUser.company = self.company
+        savedUser.blog = self.blog
+        savedUser.location = self.location
+        savedUser.email = self.email
+        savedUser.hireable = self.hireable
+        savedUser.bio = self.bio
+        savedUser.twitterUsername = self.twitterUsername
+        savedUser.publicRepos = self.publicRepos
+        savedUser.publicGists = self.publicGists
+        savedUser.followers = self.followers
+        savedUser.following = self.following
     }
     func toUser() -> User {
         let user: User = User(
@@ -48,7 +60,19 @@ extension GithubUser {
             receivedEventsUrl: self.receivedEventsUrl,
             type: self.type,
             siteAdmin: self.siteAdmin,
-            note: ""
+            note: "",
+            name: self.name,
+            company: self.company,
+            blog: self.blog,
+            location: self.location,
+            email: self.email,
+            hireable: self.hireable,
+            bio: self.bio,
+            twitterUsername: self.twitterUsername,
+            publicRepos: self.publicRepos,
+            publicGists: self.publicGists,
+            followers: self.followers,
+            following: self.following
         )
         return user
     }
@@ -74,7 +98,18 @@ extension SavedUser {
             eventsUrl: self.eventsUrl ?? "",
             receivedEventsUrl: self.receivedEventsUrl ?? "",
             type: self.type ?? "",
-            siteAdmin: self.siteAdmin
+            siteAdmin: self.siteAdmin,
+            name: self.name ?? "",
+            company: self.company ?? "",
+            blog: self.blog ?? "",
+            email: self.email ?? "",
+            hireable: self.hireable ?? "",
+            bio: self.bio ?? "",
+            twitterUsername: self.twitterUsername ?? "",
+            publicRepos: self.publicRepos ?? 0,
+            publicGists: self.publicGists ?? 0,
+            followers: self.followers ?? 0,
+            following: self.following ?? 0
         )
         return githubUser
     }
@@ -98,7 +133,19 @@ extension SavedUser {
             receivedEventsUrl: self.receivedEventsUrl ?? "",
             type: self.type ?? "",
             siteAdmin: self.siteAdmin,
-            note: ""
+            note: "",
+            name: self.name ?? "",
+            company: self.company ?? "",
+            blog: self.blog ?? "",
+            location: self.location ?? "",
+            email: self.email ?? "",
+            hireable: self.hireable ?? "",
+            bio: self.bio ?? "",
+            twitterUsername: self.twitterUsername ?? "",
+            publicRepos: self.publicRepos,
+            publicGists: self.publicGists,
+            followers: self.followers,
+            following: self.following
         )
         return user
     }

@@ -8,7 +8,11 @@
 import SwiftUI
 
 
-struct DetailsView: View {
+struct DetailsView : View  {
+    
+    
+    @EnvironmentObject var viewModel: DetailsViewModel
+    @State var note = ""
     
     var body: some View {
         VStack {
@@ -44,7 +48,7 @@ struct DetailsView: View {
                         .font(.system(size:19,
                                                  weight: .bold,
                                                  design: .default))
-                    Text("Janus Jordan")
+                    Text(viewModel.user?.name ?? "")
                         .font(.system(
                                 size:18,
                                 weight: .regular,
@@ -88,16 +92,29 @@ struct DetailsView: View {
                                  design: .default))
                 Spacer()
             }.padding(.leading, 20)
-            
+            HStack {
+                TextEditor(text:$note)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                    .foregroundColor(.black)
+                    .background(Color.gray)
+                    .padding()
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .topLeading
+                    )
+            }.padding(20)
             Spacer()
             
-        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }
-}
-
-
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailsView()
+        }
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .topLeading
+        )
+        .onAppear(perform: {
+            viewModel.fetchUser()
+        })
     }
 }

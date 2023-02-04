@@ -51,13 +51,31 @@ class SavedUsersService {
         } catch {
             viewContext.rollback()
         }
-        
+    }
+    static func updateDetails(id: Int64, githubUser: GithubUser) {
+        do {
+            var user = githubUser
+            var editingUser = try getEntityById(id)!
+            githubUser.mapToSavedUser(savedUser: editingUser)
+            saveContext()
+        } catch {
+            viewContext.rollback()
+        }
     }
     static func getEntityById(_ id: Int64)  throws  -> SavedUser?{
        let request = SavedUser.fetchRequest()
        request.fetchLimit = 1
        request.predicate = NSPredicate(
            format: "id = %d", id)
+       let user = try viewContext.fetch(request)[0]
+       return user
+    }
+    
+    static func getEntityByLoginKey(_ loginKey: String)  throws  -> SavedUser?{
+       let request = SavedUser.fetchRequest()
+       request.fetchLimit = 1
+       request.predicate = NSPredicate(
+           format: "login = %@", loginKey)
        let user = try viewContext.fetch(request)[0]
        return user
     }

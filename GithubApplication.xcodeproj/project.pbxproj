@@ -14,7 +14,6 @@
 		EDB3CA30298E92FD00E505D7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA2F298E92FD00E505D7 /* Reachability.swift */; };
 		EDB3CA32298E9A2B00E505D7 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */; };
 		EDB3CA34298E9A9F00E505D7 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */; };
-		EDB3CA36298E9B8E00E505D7 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA35298E9B8E00E505D7 /* DetailsViewController.swift */; };
 		EDEBACDF298D847F00E5B7A0 /* GithubApplication.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDEBACDD298D847F00E5B7A0 /* GithubApplication.xcdatamodeld */; };
 		EDEBACE1298D848100E5B7A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDEBACE0298D848100E5B7A0 /* Assets.xcassets */; };
 		EDEBACF0298D84FA00E5B7A0 /* GithubApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEBACEC298D84FA00E5B7A0 /* GithubApplicationCoordinator.swift */; };
@@ -49,7 +48,6 @@
 		EDB3CA2F298E92FD00E505D7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
-		EDB3CA35298E9B8E00E505D7 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		EDEBACD1298D847F00E5B7A0 /* GithubApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDEBACDE298D847F00E5B7A0 /* GithubApplication.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GithubApplication.xcdatamodel; sourceTree = "<group>"; };
 		EDEBACE0298D848100E5B7A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -259,7 +257,6 @@
 				EDB3CA3A298EC1C800E505D7 /* Views */,
 				EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */,
 				EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */,
-				EDB3CA35298E9B8E00E505D7 /* DetailsViewController.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -372,7 +369,6 @@
 				EDA4C999298DCE7A00379EAE /* GithubApplicationModule.swift in Sources */,
 				EDF3119F298E795F000F121F /* InvertedViewCell.swift in Sources */,
 				EDF3119A298E6EAA000F121F /* NoteViewCell.swift in Sources */,
-				EDB3CA36298E9B8E00E505D7 /* DetailsViewController.swift in Sources */,
 				EDB3CA2E298E90E800E505D7 /* User.swift in Sources */,
 				EDB3CA34298E9A9F00E505D7 /* DetailsViewModel.swift in Sources */,
 				EDEBAD0F298D850900E5B7A0 /* GithubService.swift in Sources */,

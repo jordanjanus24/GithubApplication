@@ -26,6 +26,19 @@ struct GithubUser: Codable, Hashable {
     let receivedEventsUrl: String
     let type: String
     let siteAdmin: Bool
+    let name: String
+    let company: String
+    let blog: String
+    let location: String
+    let email: String
+    let hireable: String
+    let bio: String
+    let twitterUsername: String
+    let publicRepos: Int64
+    let publicGists: Int64
+    let followers: Int64
+    let following: Int64
+    
   
     enum CodingKeys: String, CodingKey {
         case login = "login"
@@ -46,5 +59,17 @@ struct GithubUser: Codable, Hashable {
         case receivedEventsUrl = "received_events_url"
         case type = "type"
         case siteAdmin = "site_admin"
+        case name = "name"
+        case company = "company"
+        case blog = "blog"
+        case location = "location"
+        case email = "email"
+        case hireable = "hireable"
+        case bio = "bio"
+        case twitterUsername = "twitter_username"
+        case publicRepos = "public_repos"
+        case publicGists = "public_gists"
+        case followers = "followers"
+        case following = "following"
     }
 }

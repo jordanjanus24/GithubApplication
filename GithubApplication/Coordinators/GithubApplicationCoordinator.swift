@@ -11,12 +11,12 @@ import CoreData
 
 protocol GithubApplicationCoordinatorProtocol {
     func start()
-    func showDetails(_ id: Int64)
+    func showDetails(_ loginKey: String)
 }
 
 public class GithubApplicationCoordinator: NSObject, Coordinator, GithubApplicationCoordinatorProtocol {
     
-    lazy var applicationModule = GithubApplicationModule(coordinator: self)
+    lazy var applicationModule: GithubApplicationModuleProtocol = GithubApplicationModule(coordinator: self)
     
     internal var childCoordinators = [Coordinator]()
     internal var navigationController: UINavigationController
@@ -32,8 +32,8 @@ public class GithubApplicationCoordinator: NSObject, Coordinator, GithubApplicat
     public func start() {
         applicationModule.startInitialFlow(self.navigationController)
     }
-    public func showDetails(_ id: Int64) {
-        applicationModule.showDetailsView(self.navigationController)
+    public func showDetails(_ loginKey: String) {
+        applicationModule.showDetailsView(self.navigationController, loginKey)
     }
 }
 

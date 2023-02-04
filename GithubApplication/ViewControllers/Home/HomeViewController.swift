@@ -106,7 +106,7 @@ extension HomeViewController: UISearchResultsUpdating {
 }
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        coordinator.showDetails(self.users[indexPath.row].id)
+        coordinator.showDetails(self.users[indexPath.row].login)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if searchText == "" && indexPath.row == dataSource.count - 1 {
