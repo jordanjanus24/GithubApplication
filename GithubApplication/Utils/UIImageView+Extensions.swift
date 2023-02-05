@@ -8,6 +8,25 @@
 import Foundation
 import UIKit
 
+
+class RemoteImage {
+    static func getImageFromTask(url: URL, _ completion: @escaping (UIImage?) -> Void) -> URLSessionDataTask {
+        return URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            guard let httpURLResponse = response as? HTTPURLResponse,
+                  httpURLResponse.statusCode == 200,
+                  let data = data else {
+                return
+            }
+            DispatchQueue.main.async {
+                let image = UIImage(data: data)
+                completion(image)
+            }
+        }
+    }
+}
 extension UIImageView {
     func loadFrom(_ url: String, _ completion: @escaping () -> Void = {}) {
         guard let url = URL(string: url) else {
@@ -18,21 +37,10 @@ extension UIImageView {
             completion()
         } else {
             let operation = BlockOperation {
-                URLSession.shared.dataTask(with: url) { data, response, error in
-                    guard error == nil else {
-                        return
-                    }
-                    guard let httpURLResponse = response as? HTTPURLResponse,
-                          httpURLResponse.statusCode == 200,
-                          let data = data else {
-                        return
-                    }
-                    DispatchQueue.main.async { [weak self] in
-                        let image = UIImage(data: data)
-                        self?.image = image
-                        completion()
-                        GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
-                    }
+                RemoteImage.getImageFromTask(url: url) { [weak self] image in
+                    self?.image = image
+                    completion()
+                    GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
                 }.resume()
             }
             GithubApplicationModule.operationQueue.addOperation(operation)

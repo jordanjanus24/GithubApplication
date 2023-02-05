@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class InvertedViewCell: UITableViewCell, ReusableCell {
+class InvertedViewCell: UITableViewCell, ReusableCell, UserViewCell {
     static var cellHeight: CGFloat = 70
     @IBOutlet weak var userProfile: UIImageView!
     @IBOutlet weak var username: UILabel!

@@ -45,14 +45,12 @@ class BasicReusableTableDataSource<T> : NSObject, UITableViewDataSource {
     private var tableView: UITableView!
     private var items : [T]!
     var configureCell : (UITableView, T, IndexPath) -> (ReusableCell)?
-    var configureHeight : (T, IndexPath) -> (ReusableCell.Type)?
     var count: Int!
-    init(_ tableView: UITableView, items : [T], configureCell : @escaping (UITableView, T, IndexPath) -> (ReusableCell), configureHeight: @escaping (T, IndexPath) -> (ReusableCell.Type)) {
+    init(_ tableView: UITableView, items : [T], configureCell : @escaping (UITableView, T, IndexPath) -> (ReusableCell)) {
         self.tableView = tableView
         self.items =  items
         self.configureCell = configureCell
         self.count = items.count
-        self.configureHeight = configureHeight
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.configureCell(tableView, items[indexPath.row], indexPath)
@@ -60,10 +58,6 @@ class BasicReusableTableDataSource<T> : NSObject, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return configureHeight(items[indexPath.row], indexPath)?.cellHeight ?? 0
     }
     func reloadWithData(items: [T]) {
         self.items = items

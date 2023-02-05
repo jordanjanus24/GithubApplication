@@ -10,7 +10,7 @@ import Foundation
 
 protocol GithubServiceProtocol {
     func fetchUsers(lastId: Int64, _ completion: @escaping ([GithubUser]) -> Void)
-    func fetchUser(loginKey: String, _ completion: @escaping (GithubUser?) -> Void)
+    func fetchUser(loginKey: String, _ completion: @escaping (GithubUserDetails?) -> Void)
 }
 
 
@@ -37,7 +37,7 @@ class GithubService: GithubServiceProtocol {
             }
         }
     }
-    func fetchUser(loginKey: String, _ completion: @escaping (GithubUser?) -> Void) {
+    func fetchUser(loginKey: String, _ completion: @escaping (GithubUserDetails?) -> Void) {
         Reachability.isConnectedToNetwork { isConnected in
             if isConnected == true {
                 let operation = BlockOperation {
@@ -47,7 +47,7 @@ class GithubService: GithubServiceProtocol {
                         }
                         if let data = data {
                             let jsonDecoder = JSONDecoder()
-                            let userData = try! jsonDecoder.decode(GithubUser.self, from: data)
+                            let userData = try! jsonDecoder.decode(GithubUserDetails.self, from: data)
                                 completion(userData)
                         }
                     }.resume()
@@ -56,7 +56,7 @@ class GithubService: GithubServiceProtocol {
             } else {
                 do {
                     let users = try SavedUsersService.getEntityByLoginKey(loginKey)
-                    completion(users?.toGithubUser())
+                    completion(users?.toGithubUserDetails())
                 } catch {
                     completion(nil)
                 }

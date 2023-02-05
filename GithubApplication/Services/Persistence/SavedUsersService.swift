@@ -52,11 +52,11 @@ class SavedUsersService {
             viewContext.rollback()
         }
     }
-    static func updateDetails(id: Int64, githubUser: GithubUser) {
+    static func updateDetails(id: Int64, githubUser: GithubUserDetails) {
         do {
             var user = githubUser
-            var editingUser = try getEntityById(id)!
-            githubUser.mapToSavedUser(savedUser: editingUser)
+            let editingUser = try getEntityById(id)!
+            user.mapToSavedUser(savedUser: editingUser)
             saveContext()
         } catch {
             viewContext.rollback()

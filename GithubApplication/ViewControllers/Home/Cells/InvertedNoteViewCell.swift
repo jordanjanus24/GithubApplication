@@ -1,15 +1,14 @@
 //
-//  UserViewCell.swift
+//  InvertedNoteViewCell.swift
 //  GithubApplication
 //
-//  Created by Janus Jordan on 2/4/23.
+//  Created by Janus Jordan on 2/5/23.
 //
 
 import Foundation
 import UIKit
 
-class NormalViewCell: UITableViewCell, ReusableCell, UserViewCell {
-    
+class InvertedNoteViewCell: UITableViewCell, ReusableCell, UserViewCell {
     static var cellHeight: CGFloat = 70
     @IBOutlet weak var userProfile: UIImageView!
     @IBOutlet weak var username: UILabel!
@@ -17,14 +16,15 @@ class NormalViewCell: UITableViewCell, ReusableCell, UserViewCell {
     func configure(_ user: User) {
         username.text = user.login.capitalizedSentence
         details.text = user.type
-        userProfile.loadFrom(user.avatarUrl)
+        userProfile.loadFrom(user.avatarUrl) {
+            self.userProfile.invertImageColor()
+        }
     }
     override func awakeFromNib() {
         super.awakeFromNib()
         let view = UIView.init(frame: self.bounds)
         view.backgroundColor = .secondarySystemBackground
         self.selectedBackgroundView = view
-        userProfile.image = nil
         userProfile.layer.cornerRadius = (userProfile.frame.size.width) / 2
         userProfile.clipsToBounds = true
         userProfile.layer.borderWidth = 1.0

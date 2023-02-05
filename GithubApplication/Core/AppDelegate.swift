@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         SavedUsersService.viewContext = persistentContainer.viewContext
         SavedUsersService.backgroundContext = persistentContainer.newBackgroundContext()
+        SavedDataService.viewContext = persistentContainer.viewContext
+        SavedDataService.backgroundContext = persistentContainer.newBackgroundContext()
         return true
     }
 

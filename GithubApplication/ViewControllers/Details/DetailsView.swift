@@ -6,108 +6,109 @@
 //
 
 import SwiftUI
+import Combine
 
 
 struct DetailsView : View  {
     
-    
+    @ObservedObject var imageLoader = ImageLoader()
     @EnvironmentObject var viewModel: DetailsViewModel
     @State var note = ""
+    @State var image: UIImage? = UIImage()
+    @State private var isPresentingAlert: Bool = false
     
     var body: some View {
         VStack {
-            VStack {
-                Image(uiImage: UIImage())
-                    .resizable()
-                    .scaledToFit()
-                    .frame(
-                        maxWidth: .infinity,
-                        maxHeight: 200,
-                        alignment: .topLeading
-                    )
-                    .background(Color.gray)
-            }
-            .padding(20)
-            HStack {
-                Text("Followers: 100")
-                    .font(.system(
-                        size:16,
-                        weight: .regular,
-                        design: .default)
-                    )
-                Text("Following: 100")
-                    .font(.system(
-                        size:16,
-                        weight: .regular,
-                        design: .default)
-                    )
-            }
-            VStack {
-                HStack {
-                    Text("Name: ")
-                        .font(.system(size:19,
-                                                 weight: .bold,
-                                                 design: .default))
-                    Text(viewModel.user?.name ?? "")
-                        .font(.system(
-                                size:18,
-                                weight: .regular,
-                                design: .default)
+            ScrollView {
+                VStack {
+                    Image(uiImage: image ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(
+                            maxWidth: .infinity,
+                            maxHeight: 400,
+                            alignment: .topLeading
                         )
-                    Spacer()
-                }.padding(.bottom, 10)
+                        .clipped()
+                        .onReceive(imageLoader.$image) { image in
+                            self.image = image
+                        }
+                        .onReceive(viewModel.didChange) { urlString in
+                            imageLoader.loadImage(for: urlString)
+                        }
+                        .background(Color.gray.brightness(0.4))
+                }
                 HStack {
-                    Text("Company: ")
-                        .font(.system(size:19,
-                                                 weight: .bold,
-                                                 design: .default))
-                    Text("Atos Syntel")
-                        .font(.system(
-                                size:18,
-                                weight: .regular,
-                                design: .default)
-                        )
+                    LabelledText(label: "Followers", text: "\(viewModel.user?.followers ?? 0)")
                     Spacer()
-                }.padding(.bottom, 10)
+                    LabelledText(label: "Following", text: "\(viewModel.user?.following ?? 0)")
+                }.padding(.leading, 20).padding(.trailing, 20).padding(.top, 15)
+                VStack {
+                    LabelledText(label: "Name", text: viewModel.user?.name ?? "", withSpacer: true)
+                    LabelledText(label: "Company", text: viewModel.user?.company ?? "N/A", withSpacer: true)
+                    LabelledText(label: "Blog", text: viewModel.user?.blog ?? "N/A", withSpacer: true)
+                }.padding(.leading, 20)
+                .padding(.bottom, 5)
                 HStack {
-                    Text("Blog: ")
-                        .font(.system(size:19,
+                    Text("Notes: ")
+                        .font(.system(size:16,
                                      weight: .bold,
                                      design: .default))
-                    Text("www.apple.com")
-                        .font(.system(
-                                size:18,
-                                weight: .regular,
-                                design: .default)
-                        )
                     Spacer()
-                }.padding(.bottom, 10)
-            }.padding(.leading, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 20)
-            HStack {
-                Text("Notes: ")
-                    .font(.system(size:19,
-                                 weight: .bold,
-                                 design: .default))
-                Spacer()
-            }.padding(.leading, 20)
-            HStack {
-                TextEditor(text:$note)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                    .foregroundColor(.black)
-                    .background(Color.gray)
-                    .padding()
-                    .frame(
+                }.padding(.leading, 20)
+                VStack {
+                    TextEditor(text:$note)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .foregroundColor(.gray)
+                        .background(Color.gray.brightness(0.4))
+                        .font(.system(size:16,
+                             weight: .regular,
+                             design: .default))
+                        .padding(10)
+                        .cornerRadius(5)
+                        .overlay(RoundedRectangle(cornerRadius: 10)
+                            .stroke(.gray, lineWidth: 1.5))
+                        .frame(
+                            maxWidth: .infinity,
+                            minHeight: 150,
+                            maxHeight: 150,
+                            alignment: .topLeading
+                        )
+                        .onReceive(viewModel.didChangeNote) { note in
+                            self.note = note
+                        }
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            viewModel.saveNote(note)
+                            isPresentingAlert = true
+                        }, label: {
+                            Text("Save")
+                                .foregroundColor(Color.white)
+                                .frame(width: 150, height: 40)
+                                .cornerRadius(8)
+                                .background(Color.blue)
+                                .font(.system(size:16,
+                                     weight: .regular,
+                                     design: .default))
+                        }).padding()
+                        
+                        Spacer()
+                    }.frame(
                         maxWidth: .infinity,
-                        maxHeight: .infinity,
+                        maxHeight: 150,
                         alignment: .topLeading
                     )
-            }.padding(20)
-            Spacer()
+                }.padding(.leading, 20).padding(.trailing, 20)
+                Spacer()
+            }.alert(isPresented: $isPresentingAlert) {
+                Alert(title: Text("Github"), message: Text("Note saved."), dismissButton: .default(Text("OK")))
+            }
             
         }
+        .navigationTitle(viewModel.user?.name ?? viewModel.user?.login ?? "")
         .frame(
             maxWidth: .infinity,
             maxHeight: .infinity,

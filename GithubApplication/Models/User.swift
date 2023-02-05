@@ -27,7 +27,7 @@ struct User: Hashable {
     let receivedEventsUrl: String
     let type: String
     let siteAdmin: Bool
-    let note: String
+    var note: String
     let name: String
     let company: String
     let blog: String
@@ -36,9 +36,10 @@ struct User: Hashable {
     let hireable: String
     let bio: String
     let twitterUsername: String
-    let publicRepos: Int
-    let publicGists: Int
-    let followers: Int
-    let following: Int
+    let publicRepos: Int64
+    let publicGists: Int64
+    let followers: Int64
+    let following: Int64
+    var seen: Bool
     
 }

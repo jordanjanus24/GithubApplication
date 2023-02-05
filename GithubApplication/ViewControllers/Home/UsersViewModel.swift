@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 protocol UsersViewModelProtocol {
+    var lastRequested: Int64 { get set }
     var usersPublisher: Published<[User]>.Publisher { get }
     func fetchUsers()
 }
@@ -19,7 +20,7 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
     var usersPublisher: Published<[User]>.Publisher { $users }
     
     private var apiManager: GithubServiceProtocol!
-    private var lastRequested: Int64 = 0
+    var lastRequested: Int64 = 0
     init(_ apiManager: GithubServiceProtocol) {
         self.apiManager = apiManager
         fetchUsers()
@@ -32,8 +33,21 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
         }
         lastRequested = lastId
         if lastRequested == lastId {
+            if lastRequested == 0 {
+                self.users = []
+            }
             apiManager.fetchUsers(lastId: lastId) { [weak self] (users) in
-                self?.users.appendDistinct(contentsOf: users.map { $0.toUser() }, where: { $0.id != $1.id })
+                let savedData = SavedDataService.getAllUsers()
+                let insertingUsers = users.map { user -> (User) in
+                    var savedUser = user.toUser()
+                    let data = savedData.filter { $0.userId == user.id }
+                    if let data = data.first {
+                        savedUser.note = data.note ?? ""
+                        savedUser.seen = data.seen
+                    }
+                    return savedUser
+                }
+                self?.users.appendDistinct(contentsOf: insertingUsers, where: { $0.id != $1.id })
                 SavedUsersService.saveUsers(users)
             }
         }

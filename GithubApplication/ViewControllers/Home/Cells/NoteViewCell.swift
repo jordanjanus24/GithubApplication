@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class NoteViewCell: UITableViewCell, ReusableCell {
+class NoteViewCell: UITableViewCell, ReusableCell, UserViewCell {
     static var cellHeight: CGFloat = 70
     @IBOutlet weak var userProfile: UIImageView!
     @IBOutlet weak var username: UILabel!

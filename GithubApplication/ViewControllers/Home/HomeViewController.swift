@@ -32,6 +32,9 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setDataSource()
         bindView()
     }
@@ -40,37 +43,15 @@ class HomeViewController: UIViewController, Storyboarded {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     private func setDataSource() {
-        dataSource = BasicReusableTableDataSource(tableView, items: users, configureCell: { table, user, indexPath -> ReusableCell in
-            if user.note == "" {
-                if (indexPath.row + 1) % 4 == 0 {
-                    let cell: InvertedViewCell = InvertedViewCell.instantiate(table, indexPath)
-                    cell.configure(user)
-                    return cell
-                } else {
-                    let cell: NormalViewCell = NormalViewCell.instantiate(table, indexPath)
-                    cell.configure(user)
-                    return cell
-                }
-            } else {
-                let cell: NoteViewCell = NoteViewCell.instantiate(table, indexPath)
-                cell.configure(user)
-                return cell
-            }
-            
-        }) { user,indexPath in
-            if user.note == "" {
-                if (indexPath.row + 1)  % 4 == 0 {
-                    return InvertedViewCell.self
-                } else {
-                    return NormalViewCell.self
-                }
-            } else {
-                return NoteViewCell.self
-            }
+        dataSource = BasicReusableTableDataSource(tableView, items: users) { table, user, indexPath -> ReusableCell in
+            let cell: UserViewCell = Cells.instantiate(table, user, indexPath: indexPath)
+            cell.configure(user)
+            return cell
         }
         tableView.dataSource = dataSource
     }
     private func bindView() {
+        viewModel.lastRequested = 0
         viewModel.fetchUsers()
         viewModel.usersPublisher
            .receive(on: DispatchQueue.main)
@@ -105,6 +86,9 @@ extension HomeViewController: UISearchResultsUpdating {
     }
 }
 extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Cells.heightForRow(self.users[indexPath.row], indexPath: indexPath)
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         coordinator.showDetails(self.users[indexPath.row].login)
     }
