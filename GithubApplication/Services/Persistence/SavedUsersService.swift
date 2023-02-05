@@ -77,7 +77,7 @@ class SavedUsersService {
        request.predicate = NSPredicate(
            format: "id = %d", id)
         do {
-            let users = try viewContext.fetch(request)
+            let users = try backgroundContext.fetch(request)
             return users.count >= 1
         } catch {
             return false
