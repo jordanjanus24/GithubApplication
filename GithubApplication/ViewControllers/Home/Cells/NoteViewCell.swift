@@ -17,6 +17,12 @@ class NoteViewCell: UITableViewCell, ReusableCell, UserViewCell {
         username.text = user.login.capitalizedSentence
         details.text = user.type
         userProfile.loadFrom(user.avatarUrl)
+        if user.seen == true {
+            self.backgroundColor = .systemGray6
+        }
+        else {
+            self.backgroundColor = .systemBackground
+        }
     }
     override func awakeFromNib() {
         super.awakeFromNib()

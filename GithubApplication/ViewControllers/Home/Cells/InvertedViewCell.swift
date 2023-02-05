@@ -19,6 +19,12 @@ class InvertedViewCell: UITableViewCell, ReusableCell, UserViewCell {
         userProfile.loadFrom(user.avatarUrl) {
             self.userProfile.invertImageColor()
         }
+        if user.seen == true {
+            self.backgroundColor = .systemGray6
+        }
+        else {
+            self.backgroundColor = .systemBackground
+        }
     }
     override func awakeFromNib() {
         super.awakeFromNib()

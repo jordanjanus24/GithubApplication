@@ -23,7 +23,6 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
     var lastRequested: Int64 = 0
     init(_ apiManager: GithubServiceProtocol) {
         self.apiManager = apiManager
-        fetchUsers()
     }
 
     func fetchUsers() {
@@ -31,11 +30,11 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
         if let lastUser = users.last {
             lastId = lastUser.id
         }
+        if lastRequested == 0 {
+           reprocessUsersFromData()
+        }
         lastRequested = lastId
         if lastRequested == lastId {
-            if lastRequested == 0 {
-                self.users = []
-            }
             apiManager.fetchUsers(lastId: lastId) { [weak self] (users) in
                 let savedData = SavedDataService.getAllUsers()
                 let insertingUsers = users.map { user -> (User) in
@@ -51,5 +50,18 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
                 SavedUsersService.saveUsers(users)
             }
         }
+    }
+    private func reprocessUsersFromData() {
+        let savedData = SavedDataService.getAllUsers()
+        let latestUserDatas = self.users.map { user -> (User) in
+            var savedUser = user
+            let data = savedData.filter { $0.userId == user.id }
+            if let data = data.first {
+                savedUser.note = data.note ?? ""
+                savedUser.seen = data.seen
+            }
+            return savedUser
+        }
+        self.users = latestUserDatas
     }
 }

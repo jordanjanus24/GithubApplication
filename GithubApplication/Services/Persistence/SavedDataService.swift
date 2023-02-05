@@ -44,9 +44,13 @@ class SavedDataService {
     }
     static func updateSeen(id: Int64, seen: Bool) {
         do {
-            let user = try getEntityById(id)!
-            user.seen = seen
-            saveContext()
+            let user = try? getEntityById(id)
+            if user != nil {
+                user?.seen = seen
+                saveContext()
+            } else {
+                insertSeen(id: id)
+            }
         } catch {
             insertSeen(id: id)
         }
@@ -76,6 +80,13 @@ class SavedDataService {
        
     }
     static func saveContext(){
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+            } catch{
+                viewContext.rollback()
+            }
+        }
         if backgroundContext.hasChanges {
             do {
                 try backgroundContext.save()

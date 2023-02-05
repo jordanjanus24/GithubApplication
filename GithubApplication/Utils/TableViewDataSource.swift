@@ -10,6 +10,7 @@ import UIKit
 
 
 // NOTE: Table Data Source for Single Cell
+// This method is currently unused, just want to keep this for future reference.
 class SingleReusableTableDataSource<Cell: ReusableCell, T> : NSObject, UITableViewDataSource {
     private var tableView: UITableView!
     private var items : [T]!

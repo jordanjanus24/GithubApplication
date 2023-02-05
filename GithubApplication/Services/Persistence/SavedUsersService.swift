@@ -67,7 +67,7 @@ class SavedUsersService {
        request.fetchLimit = 1
        request.predicate = NSPredicate(
            format: "id = %d", id)
-       let user = try viewContext.fetch(request)[0]
+       let user = try backgroundContext.fetch(request)[0]
        return user
     }
     
@@ -93,6 +93,13 @@ class SavedUsersService {
         }
     }
     static func saveContext(){
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+            } catch{
+                viewContext.rollback()
+            }
+        }
         if backgroundContext.hasChanges {
             do {
                 try backgroundContext.save()

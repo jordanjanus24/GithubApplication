@@ -39,6 +39,7 @@ class DetailsViewModel: DetailsViewModelProtocol, ObservableObject {
                 self?.user = user?.toUser()
             }
             if let user = user {
+                SavedDataService.updateSeen(id: user.id, seen: true)
                 SavedUsersService.updateDetails(id: user.id, githubUser: user)
                 do {
                     let savedUser = try SavedDataService.getEntityById(user.id)

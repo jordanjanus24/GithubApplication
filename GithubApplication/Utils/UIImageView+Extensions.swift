@@ -26,26 +26,33 @@ class RemoteImage {
             }
         }
     }
+    static func getImageFromCacheOrTask(url: URL, _ completion: @escaping (UIImage?) -> Void) {
+        if let cachedImage = GithubApplicationModule.cache.object(forKey: url.absoluteString as NSString) as? UIImage {
+            completion(cachedImage)
+        } else {
+            let operation = BlockOperation {
+                RemoteImage.getImageFromTask(url: url) { image in
+                    if let image = image {
+                        completion(image)
+                    } else {
+                        let cachedImage = GithubApplicationModule.cache.object(forKey: url.absoluteString as NSString) as? UIImage
+                        completion(cachedImage)
+                    }
+                    GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
+                }.resume()
+            }
+            GithubApplicationModule.operationQueue.addOperation(operation)
+        }
+    }
 }
 extension UIImageView {
     func loadFrom(_ url: String, _ completion: @escaping () -> Void = {}) {
         guard let url = URL(string: url) else {
             return
         }
-        if let cachedImage = GithubApplicationModule.cache.object(forKey: url.absoluteString as NSString) as? UIImage {
-            self.image = cachedImage
-            completion()
-        } else {
-            let operation = BlockOperation {
-                RemoteImage.getImageFromTask(url: url) { [weak self] image in
-                    self?.image = image
-                    completion()
-                    GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
-                }.resume()
-            }
-            GithubApplicationModule.operationQueue.addOperation(operation)
+        RemoteImage.getImageFromCacheOrTask(url: url) { [weak self] image in
+            self?.image = image
         }
-       
     }
     func invertImageColor() {
         let coreImage = CIImage(image: self.image!)

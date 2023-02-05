@@ -18,11 +18,19 @@ class HomeViewController: UIViewController, Storyboarded {
     private var users = [User]()
     private var dataSource: BasicReusableTableDataSource<User>!
     private var searchText = ""
+    
+    lazy var refreshController: UIRefreshControl = {
+        var refreshController = UIRefreshControl()
+        refreshController.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged )
+        return refreshController
+    }()
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
+            tableView.refreshControl = refreshController
         }
     }
+    @IBOutlet weak var noInternetConnectionView: UIView!
     private lazy var searchController: UISearchController = {
         var sc = UISearchController()
         sc.searchResultsUpdater = self
@@ -32,15 +40,18 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setDataSource()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setDataSource()
         bindView()
+        initialData()
     }
     private func setupUI() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        noInternetConnectionView.isHidden = true
+        tableView.isHidden = false
     }
     private func setDataSource() {
         dataSource = BasicReusableTableDataSource(tableView, items: users) { table, user, indexPath -> ReusableCell in
@@ -50,15 +61,32 @@ class HomeViewController: UIViewController, Storyboarded {
         }
         tableView.dataSource = dataSource
     }
-    private func bindView() {
+    private func initialData() {
         viewModel.lastRequested = 0
         viewModel.fetchUsers()
+    }
+    private func bindView() {
         viewModel.usersPublisher
            .receive(on: DispatchQueue.main)
            .sink { [weak self] users in
-               self?.setUsersData(users)
+               if users.isEmpty == true {
+                   self?.showNoConnection()
+               } else {
+                   self?.setUsersData(users)
+               }
+               DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                   self?.refreshController.endRefreshing()
+               }
            }
            .store(in: &cancellables)
+    }
+    private func showNoConnection() {
+        Reachability.isConnectedToNetwork { isConnected in
+            if isConnected == false {
+                noInternetConnectionView.isHidden = false
+                tableView.isHidden = true
+            }
+        }
     }
     private func setUsersData(_ users: [User]) {
         self.users = users
@@ -71,6 +99,9 @@ class HomeViewController: UIViewController, Storyboarded {
             self.viewModel.fetchUsers()
         }
     }
+    @objc func refreshData(_ sender: UIRefreshControl) {
+        initialData()
+   }
 }
 extension HomeViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -82,7 +113,6 @@ extension HomeViewController: UISearchResultsUpdating {
                 self.dataSource.reloadWithData(items: users)
             }
         }
-        
     }
 }
 extension HomeViewController: UITableViewDelegate {
