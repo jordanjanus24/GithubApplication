@@ -73,7 +73,6 @@ class SavedDataService {
             } else {
                return nil
             }
-            
         } catch {
             return nil
         }

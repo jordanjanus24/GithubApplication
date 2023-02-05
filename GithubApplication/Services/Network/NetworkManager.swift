@@ -9,7 +9,7 @@ import Foundation
 import Reachability
 
 enum NetworkError: Error {
-    case badResult
+    case badResult, badResponse
 }
 
 class NetworkManager: NSObject {

@@ -25,7 +25,6 @@
         <attribute name="login" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nodeId" optional="YES" attributeType="String"/>
-        <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="organizationsUrl" optional="YES" attributeType="String"/>
         <attribute name="publicGists" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="publicRepos" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -39,7 +38,7 @@
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="SavedUser" positionX="-63" positionY="-18" width="128" height="494"/>
         <element name="SavedData" positionX="-63" positionY="144" width="128" height="74"/>
+        <element name="SavedUser" positionX="-63" positionY="-18" width="128" height="479"/>
     </elements>
 </model>

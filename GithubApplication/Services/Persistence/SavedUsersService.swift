@@ -39,19 +39,6 @@ class SavedUsersService {
         user.mapToSavedUser(savedUser: newUser)
         saveContext()
     }
-    static func deleteItem(item: SavedUser) {
-        backgroundContext.delete(item)
-        saveContext()
-    }
-    static func updateNote(id: Int64, note: String) {
-        do {
-            let user = try getEntityById(id)!
-            user.note = note
-            saveContext()
-        } catch {
-            viewContext.rollback()
-        }
-    }
     static func updateDetails(id: Int64, githubUser: GithubUserDetails) {
         do {
             var user = githubUser
@@ -76,8 +63,12 @@ class SavedUsersService {
        request.fetchLimit = 1
        request.predicate = NSPredicate(
            format: "login = %@", loginKey)
-       let user = try viewContext.fetch(request)[0]
-       return user
+        do {
+            let user = try viewContext.fetch(request)
+            return user[0]
+        } catch {
+            return nil
+        }
     }
     
     private static func isExistingEntity(_ id: Int64)  throws  -> Bool{
