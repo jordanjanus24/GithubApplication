@@ -12,14 +12,15 @@
 		ED64761A298F6A9F000DFB3B /* InvertedNoteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED647619298F6A9F000DFB3B /* InvertedNoteViewCell.swift */; };
 		ED672097298F714B006A1E48 /* UserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED672096298F714B006A1E48 /* UserViewCell.swift */; };
 		ED67209A298F79CD006A1E48 /* LabelledText.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED672099298F79CD006A1E48 /* LabelledText.swift */; };
+		ED67209C298F9970006A1E48 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED67209B298F9970006A1E48 /* LoadingCell.swift */; };
 		EDA4C999298DCE7A00379EAE /* GithubApplicationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA4C998298DCE7A00379EAE /* GithubApplicationModule.swift */; };
 		EDA4C9A0298E0F3F00379EAE /* NormalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA4C99F298E0F3F00379EAE /* NormalViewCell.swift */; };
 		EDA4C9A2298E10B200379EAE /* BaseViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDA4C9A1298E10B200379EAE /* BaseViewCell.swift */; };
 		EDB3CA2E298E90E800E505D7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA2D298E90E800E505D7 /* User.swift */; };
-		EDB3CA30298E92FD00E505D7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA2F298E92FD00E505D7 /* Reachability.swift */; };
 		EDB3CA32298E9A2B00E505D7 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */; };
 		EDB3CA34298E9A9F00E505D7 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */; };
 		EDB3CA3C298EDFCE00E505D7 /* GithubUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3CA3B298EDFCE00E505D7 /* GithubUserDetails.swift */; };
+		EDB5B525298FA4BE00C1A96D /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5B524298FA4BE00C1A96D /* NetworkManager.swift */; };
 		EDEBACDF298D847F00E5B7A0 /* GithubApplication.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDEBACDD298D847F00E5B7A0 /* GithubApplication.xcdatamodeld */; };
 		EDEBACE1298D848100E5B7A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDEBACE0298D848100E5B7A0 /* Assets.xcassets */; };
 		EDEBACF0298D84FA00E5B7A0 /* GithubApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDEBACEC298D84FA00E5B7A0 /* GithubApplicationCoordinator.swift */; };
@@ -52,14 +53,15 @@
 		ED647619298F6A9F000DFB3B /* InvertedNoteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertedNoteViewCell.swift; sourceTree = "<group>"; };
 		ED672096298F714B006A1E48 /* UserViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewCell.swift; sourceTree = "<group>"; };
 		ED672099298F79CD006A1E48 /* LabelledText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelledText.swift; sourceTree = "<group>"; };
+		ED67209B298F9970006A1E48 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		EDA4C998298DCE7A00379EAE /* GithubApplicationModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubApplicationModule.swift; sourceTree = "<group>"; };
 		EDA4C99F298E0F3F00379EAE /* NormalViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalViewCell.swift; sourceTree = "<group>"; };
 		EDA4C9A1298E10B200379EAE /* BaseViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewCell.swift; sourceTree = "<group>"; };
 		EDB3CA2D298E90E800E505D7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		EDB3CA2F298E92FD00E505D7 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		EDB3CA31298E9A2B00E505D7 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		EDB3CA33298E9A9F00E505D7 /* DetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		EDB3CA3B298EDFCE00E505D7 /* GithubUserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserDetails.swift; sourceTree = "<group>"; };
+		EDB5B524298FA4BE00C1A96D /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		EDEBACD1298D847F00E5B7A0 /* GithubApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDEBACDE298D847F00E5B7A0 /* GithubApplication.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GithubApplication.xcdatamodel; sourceTree = "<group>"; };
 		EDEBACE0298D848100E5B7A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				EDF3119E298E795F000F121F /* InvertedViewCell.swift */,
 				ED647619298F6A9F000DFB3B /* InvertedNoteViewCell.swift */,
 				ED672096298F714B006A1E48 /* UserViewCell.swift */,
+				ED67209B298F9970006A1E48 /* LoadingCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -255,7 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				EDEBAD07298D850900E5B7A0 /* GithubService.swift */,
-				EDB3CA2F298E92FD00E505D7 /* Reachability.swift */,
+				EDB5B524298FA4BE00C1A96D /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				EDEBACCD298D847F00E5B7A0 /* Sources */,
 				EDEBACCE298D847F00E5B7A0 /* Frameworks */,
 				EDEBACCF298D847F00E5B7A0 /* Resources */,
+				BA5DABBB8044DDFACB2286E2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -369,6 +373,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BA5DABBB8044DDFACB2286E2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GithubApplication/Pods-GithubApplication-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GithubApplication/Pods-GithubApplication-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GithubApplication/Pods-GithubApplication-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -386,6 +407,7 @@
 				ED647618298F652A000DFB3B /* SavedDataService.swift in Sources */,
 				EDEBACF1298D84FA00E5B7A0 /* AppDelegate.swift in Sources */,
 				EDF3118C298E1E76000F121F /* String+Extensions.swift in Sources */,
+				ED67209C298F9970006A1E48 /* LoadingCell.swift in Sources */,
 				EDA4C999298DCE7A00379EAE /* GithubApplicationModule.swift in Sources */,
 				EDF3119F298E795F000F121F /* InvertedViewCell.swift in Sources */,
 				EDF3119A298E6EAA000F121F /* NoteViewCell.swift in Sources */,
@@ -395,8 +417,8 @@
 				ED64761A298F6A9F000DFB3B /* InvertedNoteViewCell.swift in Sources */,
 				EDEBAD0D298D850900E5B7A0 /* UsersViewModel.swift in Sources */,
 				EDEBACF2298D84FA00E5B7A0 /* SceneDelegate.swift in Sources */,
+				EDB5B525298FA4BE00C1A96D /* NetworkManager.swift in Sources */,
 				EDEBACFA298D850200E5B7A0 /* GithubUser.swift in Sources */,
-				EDB3CA30298E92FD00E505D7 /* Reachability.swift in Sources */,
 				ED672097298F714B006A1E48 /* UserViewCell.swift in Sources */,
 				EDB3CA3C298EDFCE00E505D7 /* GithubUserDetails.swift in Sources */,
 				EDF311A1298E83A8000F121F /* GithubUser+SavedUser.swift in Sources */,

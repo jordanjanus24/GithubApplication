@@ -44,21 +44,41 @@ class SingleReusableTableDataSource<Cell: ReusableCell, T> : NSObject, UITableVi
 // NOTE: Table Data Source for Multiple Cells with Different Classes
 class BasicReusableTableDataSource<T> : NSObject, UITableViewDataSource {
     private var tableView: UITableView!
-    private var items : [T]!
-    var configureCell : (UITableView, T, IndexPath) -> (ReusableCell)?
+    private var items : [T?]!
+    var configureCell : (UITableView, T?, IndexPath) -> (ReusableCell)?
     var count: Int!
-    init(_ tableView: UITableView, items : [T], configureCell : @escaping (UITableView, T, IndexPath) -> (ReusableCell)) {
+    private var numberOfSections = 1
+    private var showBottomSection = false
+    init(_ tableView: UITableView, items : [T?], numberOfSections: Int = 1, configureCell : @escaping (UITableView, T?, IndexPath) -> (ReusableCell)) {
         self.tableView = tableView
         self.items =  items
         self.configureCell = configureCell
         self.count = items.count
+        self.numberOfSections = numberOfSections
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.configureCell(tableView, items[indexPath.row], indexPath)
-        return cell as! UITableViewCell
+        if indexPath.section == 0 {
+            let cell = self.configureCell(tableView, items[indexPath.row], indexPath)
+            return cell as! UITableViewCell
+        } else {
+            let cell = self.configureCell(tableView, nil, indexPath)
+            return cell as! UITableViewCell
+        }
+        
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.numberOfSections
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        if section == 0 {
+            return items.count
+        } else {
+            return showBottomSection == true ? 1 : 0
+        }
+    }
+    func showBottomSection(show: Bool) {
+        self.showBottomSection = show
+        self.tableView.reloadData()
     }
     func reloadWithData(items: [T]) {
         self.items = items
