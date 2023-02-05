@@ -17,8 +17,6 @@ struct DetailsView : View  {
     @State var image: UIImage? = UIImage()
     @State private var isPresentingAlert: Bool = false
     
-    @State private var keyboardHeight: CGFloat = 0
-    
     var body: some View {
         VStack {
             ScrollView {
@@ -102,16 +100,13 @@ struct DetailsView : View  {
                         maxWidth: .infinity,
                         maxHeight: 150,
                         alignment: .topLeading
-                    )
+                    ).keyboardAdaptive()
                 }.padding(.leading, 20).padding(.trailing, 20)
                 Spacer()
             }.alert(isPresented: $isPresentingAlert) {
                 Alert(title: Text("Github"), message: Text("Note saved."), dismissButton: .default(Text("OK")))
             }
-            
         }
-        .padding(.bottom, keyboardHeight)
-        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         .navigationTitle(viewModel.user?.name ?? viewModel.user?.login ?? "")
         .frame(
             maxWidth: .infinity,
