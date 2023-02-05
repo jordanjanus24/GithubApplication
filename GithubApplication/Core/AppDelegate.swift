@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SavedUsersService.backgroundContext = persistentContainer.newBackgroundContext()
         SavedDataService.viewContext = persistentContainer.viewContext
         SavedDataService.backgroundContext = persistentContainer.newBackgroundContext()
-        NetworkManager.sharedInstance.start()
         return true
     }
 
@@ -33,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func applicationWillTerminate(_ application: UIApplication) {
         SavedUsersService.saveContext()
-        NetworkManager.sharedInstance.stop()
     }
 
     // MARK: - Core Data stack

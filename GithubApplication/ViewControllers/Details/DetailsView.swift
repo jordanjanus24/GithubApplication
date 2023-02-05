@@ -17,6 +17,7 @@ struct DetailsView : View  {
     @State var image: UIImage? = UIImage()
     @State private var isPresentingAlert: Bool = false
     @Namespace var bottomID
+    var networkManager = NetworkManager()
     
     var body: some View {
         VStack {
@@ -121,14 +122,17 @@ struct DetailsView : View  {
             alignment: .topLeading
         )
         .onAppear(perform: {
-            NetworkManager.networkCallback = { isConnected in
+            networkManager.networkCallback = { isConnected in
                 if isConnected == true {
                     viewModel.fetchUser()
                 } else {
                     viewModel.setupUserFromCache()
                 }
             }
+            networkManager.start()
             viewModel.fetchUser()
-        })
+        }).onDisappear {
+            networkManager.stop()
+        }
     }
 }

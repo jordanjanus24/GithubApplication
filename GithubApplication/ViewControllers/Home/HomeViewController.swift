@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, Storyboarded {
     private var users = [User]()
     private var dataSource: BasicReusableTableDataSource<User>!
     private var searchText = ""
+    private lazy var networkManager = NetworkManager()
     
     lazy var refreshController: UIRefreshControl = {
         var refreshController = UIRefreshControl()
@@ -69,16 +70,20 @@ class HomeViewController: UIViewController, Storyboarded {
         tableView.dataSource = dataSource
     }
     private func initialData() {
-        NetworkManager.networkCallback = { [weak self] isConnected in
+        networkManager.networkCallback = { [weak self] isConnected in
             if isConnected == true {
                 self?.tableView.refreshControl = self?.refreshController
-                self?.viewModel.fetchInitialUsers()
                 self?.tableView.reloadData()
+                self?.viewModel.fetchInitialUsers()
             } else {
                 self?.tableView.refreshControl = nil
             }
         }
+        networkManager.start()
         self.viewModel.fetchInitialUsers()
+    }
+    deinit {
+        networkManager.stop()
     }
     private func bindView() {
         viewModel.usersPublisher
@@ -108,7 +113,7 @@ class HomeViewController: UIViewController, Storyboarded {
            .store(in: &cancellables)
     }
     private func showNoConnection() {
-        if NetworkManager.isReachable == false {
+        if networkManager.isReachable == false {
             noInternetConnectionView.isHidden = false
             tableView.isHidden = true
         }
@@ -124,7 +129,7 @@ class HomeViewController: UIViewController, Storyboarded {
         }
     }
     private func onBottomRow() {
-        if NetworkManager.isReachable == true {
+        if networkManager.isReachable == true {
             isLoadingPaginated = true
             dataSource.showBottomSection(show: true)
             if let lastUser = users.last {

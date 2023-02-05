@@ -27,11 +27,7 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
 
     func fetchInitialUsers() {
         self.users = []
-        if NetworkManager.isReachable == true {
-            fetchUsers(from: 0)
-        } else {
-           setDataFromCache()
-        }
+        fetchUsers(from: 0)
     }
     func setDataFromCache() {
         let users = SavedUsersService.getAllUsers()

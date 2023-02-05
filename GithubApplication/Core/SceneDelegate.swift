@@ -13,7 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        NetworkManager.sharedInstance.start()
         if let windowScene = (scene as? UIWindowScene) {
             window = UIWindow(windowScene: windowScene)
             coordinator = GithubApplicationCoordinator(navigationController: UINavigationController())
@@ -37,7 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         SavedUsersService.saveContext()
-        NetworkManager.sharedInstance.stop()
     }
 
 
