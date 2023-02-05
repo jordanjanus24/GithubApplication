@@ -8,6 +8,10 @@
 import Foundation
 import Reachability
 
+enum NetworkError: Error {
+    case badResult
+}
+
 class NetworkManager: NSObject {
     var reachability: Reachability!
     static let sharedInstance: NetworkManager = {

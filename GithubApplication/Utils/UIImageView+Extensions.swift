@@ -9,7 +9,12 @@ import Foundation
 import UIKit
 
 
-class RemoteImage {
+protocol RemoteImageProtocol {
+    static func getImageFromTask(url: URL, _ completion: @escaping (UIImage?) -> Void) -> URLSessionDataTask
+    static func getImageFromCacheOrTask(url: URL, _ completion: @escaping (UIImage?) -> Void)
+}
+
+class RemoteImage: RemoteImageProtocol {
     static func getImageFromTask(url: URL, _ completion: @escaping (UIImage?) -> Void) -> URLSessionDataTask {
         return URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {

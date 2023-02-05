@@ -34,22 +34,28 @@ class DetailsViewModel: DetailsViewModelProtocol, ObservableObject {
     }
     
     func fetchUser() {
-        apiManager.fetchUser(loginKey: self.loginKey) { [weak self] user in
-            DispatchQueue.main.async {
-                self?.user = user?.toUser()
-            }
-            if let user = user {
-                SavedDataService.updateSeen(id: user.id, seen: true)
-                SavedUsersService.updateDetails(id: user.id, githubUser: user)
-                do {
-                    let savedUser = try SavedDataService.getEntityById(user.id)
+        apiManager.fetchUser(loginKey: self.loginKey) { [weak self] result in
+            switch result {
+                case .success(let user):
                     DispatchQueue.main.async {
-                        self?.didChangeNote.send(savedUser?.note ?? "")
+                        self?.user = user?.toUser()
                     }
-                } catch {
-                    
-                }
+                    if let user = user {
+                        SavedDataService.updateSeen(id: user.id, seen: true)
+                        SavedUsersService.updateDetails(id: user.id, githubUser: user)
+                        do {
+                            let savedUser = try SavedDataService.getEntityById(user.id)
+                            DispatchQueue.main.async {
+                                self?.didChangeNote.send(savedUser?.note ?? "")
+                            }
+                        } catch {
+                            
+                        }
+                    }
+                case .failure(_):
+                    print("ERR")
             }
+            
         }
     }
     func saveNote(_ note: String) {

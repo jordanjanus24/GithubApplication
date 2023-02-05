@@ -35,19 +35,25 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
         }
         lastRequested = lastId
         if lastRequested == lastId {
-            apiManager.fetchUsers(lastId: lastId) { [weak self] (users) in
-                let savedData = SavedDataService.getAllUsers()
-                let insertingUsers = users.map { user -> (User) in
-                    var savedUser = user.toUser()
-                    let data = savedData.filter { $0.userId == user.id }
-                    if let data = data.first {
-                        savedUser.note = data.note ?? ""
-                        savedUser.seen = data.seen
-                    }
-                    return savedUser
+            apiManager.fetchUsers(lastId: lastId) { [weak self] result in
+                switch result {
+                    case .success(let users):
+                        let savedData = SavedDataService.getAllUsers()
+                        let insertingUsers = users.map { user -> (User) in
+                            var savedUser = user.toUser()
+                            let data = savedData.filter { $0.userId == user.id }
+                            if let data = data.first {
+                                savedUser.note = data.note ?? ""
+                                savedUser.seen = data.seen
+                            }
+                            return savedUser
+                        }
+                        self?.users.appendDistinct(contentsOf: insertingUsers, where: { $0.id != $1.id })
+                        SavedUsersService.saveUsers(users)
+                    case .failure(_):
+                        print("ERRR")
                 }
-                self?.users.appendDistinct(contentsOf: insertingUsers, where: { $0.id != $1.id })
-                SavedUsersService.saveUsers(users)
+               
             }
         }
     }

@@ -52,8 +52,6 @@ class HomeViewController: UIViewController, Storyboarded {
     private func setupUI() {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        noInternetConnectionView.isHidden = true
-        tableView.isHidden = false
     }
     private func setDataSource() {
         dataSource = BasicReusableTableDataSource(tableView, items: users, numberOfSections: 2) { table, user, indexPath -> ReusableCell in
@@ -73,8 +71,11 @@ class HomeViewController: UIViewController, Storyboarded {
     private func initialData() {
         self.viewModel.lastRequested = 0
         NetworkManager.networkCallback = { [weak self] isConnected in
-            self?.viewModel.fetchUsers()
+            if isConnected == true {
+                self?.viewModel.fetchUsers()
+            }
         }
+        self.viewModel.fetchUsers()
     }
     private func bindView() {
         viewModel.usersPublisher
@@ -89,9 +90,11 @@ class HomeViewController: UIViewController, Storyboarded {
                            self?.refreshController.endRefreshing()
                            self?.isLoadingPaginated = false
                            self?.dataSource.showBottomSection(show: false)
+                           self?.showTableView()
                         }
                    } else {
                        self?.setUsersData(users)
+                       self?.showTableView()
                    }
                }
            }
@@ -102,6 +105,10 @@ class HomeViewController: UIViewController, Storyboarded {
             noInternetConnectionView.isHidden = false
             tableView.isHidden = true
         }
+    }
+    private func showTableView() {
+        noInternetConnectionView.isHidden = true
+        tableView.isHidden = false
     }
     private func setUsersData(_ users: [User]) {
         self.users = users
@@ -147,9 +154,11 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if searchText == "" && indexPath.row == dataSource.count - 10, isLoadingPaginated == false {
             onBottomRow()
-            dataSource.showBottomSection(show: true)
-            if indexPath.section != 0 {
-                cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
+            if NetworkManager.isReachable == true {
+                dataSource.showBottomSection(show: true)
+                if indexPath.section != 0 {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
+                }
             }
         }
     }
