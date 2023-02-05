@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED370953298FE28100583757 /* Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED370952298FE28100583757 /* Publishers.swift */; };
 		ED5CE272298FBD0F00311A6C /* GithubApplicationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5CE271298FBD0F00311A6C /* GithubApplicationServiceTests.swift */; };
 		ED647616298F516D000DFB3B /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED647615298F516D000DFB3B /* ImageLoader.swift */; };
 		ED647618298F652A000DFB3B /* SavedDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED647617298F652A000DFB3B /* SavedDataService.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		59B6AFC9C2A07CFE30D4418E /* Pods-GithubApplication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubApplication.release.xcconfig"; path = "Target Support Files/Pods-GithubApplication/Pods-GithubApplication.release.xcconfig"; sourceTree = "<group>"; };
 		77E49E3984FD5EC0B8646FBC /* Pods-GithubApplication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GithubApplication.debug.xcconfig"; path = "Target Support Files/Pods-GithubApplication/Pods-GithubApplication.debug.xcconfig"; sourceTree = "<group>"; };
+		ED370952298FE28100583757 /* Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publishers.swift; sourceTree = "<group>"; };
 		ED5CE271298FBD0F00311A6C /* GithubApplicationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubApplicationServiceTests.swift; sourceTree = "<group>"; };
 		ED647615298F516D000DFB3B /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		ED647617298F652A000DFB3B /* SavedDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDataService.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				EDF3118B298E1E76000F121F /* String+Extensions.swift */,
 				EDF31190298E5933000F121F /* TableViewDataSource.swift */,
 				EDF31192298E6984000F121F /* Array+Extensions.swift */,
+				ED370952298FE28100583757 /* Publishers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				EDF3118C298E1E76000F121F /* String+Extensions.swift in Sources */,
 				ED67209C298F9970006A1E48 /* LoadingCell.swift in Sources */,
 				EDA4C999298DCE7A00379EAE /* GithubApplicationModule.swift in Sources */,
+				ED370953298FE28100583757 /* Publishers.swift in Sources */,
 				EDF3119F298E795F000F121F /* InvertedViewCell.swift in Sources */,
 				EDF3119A298E6EAA000F121F /* NoteViewCell.swift in Sources */,
 				EDB3CA2E298E90E800E505D7 /* User.swift in Sources */,

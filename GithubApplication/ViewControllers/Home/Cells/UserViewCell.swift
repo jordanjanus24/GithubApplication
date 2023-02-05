@@ -13,6 +13,7 @@ protocol UserViewCell: ReusableCell {
 }
 
 class Cells {
+    static let iconPlaceholder = "person.fill"
     static func instantiate(_ table: UITableView, _ user: User, indexPath: IndexPath) -> UserViewCell {
         if user.note == "" {
             if (indexPath.row + 1) % 4 == 0 {

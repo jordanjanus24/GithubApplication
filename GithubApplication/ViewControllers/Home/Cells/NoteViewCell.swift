@@ -16,7 +16,7 @@ class NoteViewCell: UITableViewCell, ReusableCell, UserViewCell {
     func configure(_ user: User) {
         username.text = user.login.capitalizedSentence
         details.text = user.type
-        userProfile.loadFrom(user.avatarUrl)
+        userProfile.loadFrom(user.avatarUrl, placeHolder: Cells.iconPlaceholder)
         if user.seen == true {
             self.backgroundColor = .systemGray6
         }
@@ -29,10 +29,13 @@ class NoteViewCell: UITableViewCell, ReusableCell, UserViewCell {
         let view = UIView.init(frame: self.bounds)
         view.backgroundColor = .secondarySystemBackground
         self.selectedBackgroundView = view
+        userProfile.image = nil
+        userProfile.tintColor = UIColor.systemGray4
         userProfile.layer.cornerRadius = (userProfile.frame.size.width) / 2
         userProfile.clipsToBounds = true
         userProfile.layer.borderWidth = 1.0
         userProfile.layer.borderColor = UIColor.systemBackground.cgColor
+        userProfile.layer.backgroundColor = UIColor.systemGray6.cgColor
         self.separatorInset.left = 90
     }
 }

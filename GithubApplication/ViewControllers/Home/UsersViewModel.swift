@@ -9,9 +9,10 @@ import Foundation
 import Combine
 
 protocol UsersViewModelProtocol {
-    var lastRequested: Int64 { get set }
     var usersPublisher: Published<[User]>.Publisher { get }
-    func fetchUsers()
+    func fetchInitialUsers()
+    func fetchUsers(from lastId: Int64)
+    func setDataFromCache()
 }
 
 class UsersViewModel: UsersViewModelProtocol, ObservableObject {
@@ -20,46 +21,37 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
     var usersPublisher: Published<[User]>.Publisher { $users }
     
     private var apiManager: GithubServiceProtocol!
-    var lastRequested: Int64 = 0
     init(_ apiManager: GithubServiceProtocol) {
         self.apiManager = apiManager
     }
 
-    func fetchUsers() {
-        var lastId: Int64 = 0
-        if let lastUser = users.last {
-            lastId = lastUser.id
+    func fetchInitialUsers() {
+        self.users = []
+        if NetworkManager.isReachable == true {
+            fetchUsers(from: 0)
+        } else {
+           setDataFromCache()
         }
-        if lastRequested == 0 {
-           reprocessUsersFromData()
-        }
-        lastRequested = lastId
-        if lastRequested == lastId {
-            apiManager.fetchUsers(lastId: lastId) { [weak self] result in
-                switch result {
-                    case .success(let users):
-                        let savedData = SavedDataService.getAllUsers()
-                        let insertingUsers = users.map { user -> (User) in
-                            var savedUser = user.toUser()
-                            let data = savedData.filter { $0.userId == user.id }
-                            if let data = data.first {
-                                savedUser.note = data.note ?? ""
-                                savedUser.seen = data.seen
-                            }
-                            return savedUser
-                        }
-                        self?.users.appendDistinct(contentsOf: insertingUsers, where: { $0.id != $1.id })
-                        SavedUsersService.saveUsers(users)
-                    case .failure(_):
-                        print("ERRR")
-                }
-               
+    }
+    func setDataFromCache() {
+        let users = SavedUsersService.getAllUsers()
+        self.users = users.map { $0.toUser() }
+        self.setupUsersFromData(users: self.users, append: false)
+    }
+    func fetchUsers(from lastId: Int64) {
+        apiManager.fetchUsers(lastId: lastId) { [weak self] result in
+            switch result {
+                case .success(let users):
+                    self?.setupUsersFromData(users: users.map { $0.toUser()}, append: true)
+                    SavedUsersService.saveUsers(users)
+                case .failure(_):
+                    self?.setDataFromCache()
             }
         }
     }
-    private func reprocessUsersFromData() {
+    private func setupUsersFromData(users: [User], append: Bool = false) {
         let savedData = SavedDataService.getAllUsers()
-        let latestUserDatas = self.users.map { user -> (User) in
+        let latestUserDatas = users.map { user -> (User) in
             var savedUser = user
             let data = savedData.filter { $0.userId == user.id }
             if let data = data.first {
@@ -68,6 +60,10 @@ class UsersViewModel: UsersViewModelProtocol, ObservableObject {
             }
             return savedUser
         }
-        self.users = latestUserDatas
+        if append == true {
+            self.users.appendDistinct(contentsOf: latestUserDatas, where: { $0.id != $1.id })
+        } else {
+            self.users = latestUserDatas
+        }
     }
 }

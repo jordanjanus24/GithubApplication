@@ -37,12 +37,7 @@ class RemoteImage: RemoteImageProtocol {
         } else {
             let operation = BlockOperation {
                 RemoteImage.getImageFromTask(url: url) { image in
-                    if let image = image {
-                        completion(image)
-                    } else {
-                        let cachedImage = GithubApplicationModule.cache.object(forKey: url.absoluteString as NSString) as? UIImage
-                        completion(cachedImage)
-                    }
+                    completion(image)
                     GithubApplicationModule.cache.setObject(image!, forKey: url.absoluteString as NSString)
                 }.resume()
             }
@@ -51,12 +46,16 @@ class RemoteImage: RemoteImageProtocol {
     }
 }
 extension UIImageView {
-    func loadFrom(_ url: String, _ completion: @escaping () -> Void = {}) {
+    func loadFrom(_ url: String, placeHolder: String, _ completion: @escaping () -> Void = {}) {
         guard let url = URL(string: url) else {
             return
         }
         RemoteImage.getImageFromCacheOrTask(url: url) { [weak self] image in
-            self?.image = image
+            if let image = image {
+                self?.image = image
+            } else {
+                self?.image = nil
+            }
         }
     }
     func invertImageColor() {

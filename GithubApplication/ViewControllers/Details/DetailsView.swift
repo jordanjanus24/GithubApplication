@@ -17,6 +17,8 @@ struct DetailsView : View  {
     @State var image: UIImage? = UIImage()
     @State private var isPresentingAlert: Bool = false
     
+    @State private var keyboardHeight: CGFloat = 0
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -108,6 +110,8 @@ struct DetailsView : View  {
             }
             
         }
+        .padding(.bottom, keyboardHeight)
+        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         .navigationTitle(viewModel.user?.name ?? viewModel.user?.login ?? "")
         .frame(
             maxWidth: .infinity,
@@ -115,6 +119,13 @@ struct DetailsView : View  {
             alignment: .topLeading
         )
         .onAppear(perform: {
+            NetworkManager.networkCallback = { isConnected in
+                if isConnected == true {
+                    viewModel.fetchUser()
+                } else {
+                    viewModel.setupUserFromCache()
+                }
+            }
             viewModel.fetchUser()
         })
     }

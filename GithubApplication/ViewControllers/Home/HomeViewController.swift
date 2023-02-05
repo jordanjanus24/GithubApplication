@@ -42,7 +42,7 @@ class HomeViewController: UIViewController, Storyboarded {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setDataSource()
+        setupDataSource()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,7 +53,7 @@ class HomeViewController: UIViewController, Storyboarded {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
-    private func setDataSource() {
+    private func setupDataSource() {
         dataSource = BasicReusableTableDataSource(tableView, items: users, numberOfSections: 2) { table, user, indexPath -> ReusableCell in
             if indexPath.section == 0 {
                 let cell: UserViewCell = Cells.instantiate(table, user!, indexPath: indexPath)
@@ -69,20 +69,27 @@ class HomeViewController: UIViewController, Storyboarded {
         tableView.dataSource = dataSource
     }
     private func initialData() {
-        self.viewModel.lastRequested = 0
         NetworkManager.networkCallback = { [weak self] isConnected in
             if isConnected == true {
-                self?.viewModel.fetchUsers()
+                self?.tableView.refreshControl = self?.refreshController
+                self?.viewModel.fetchInitialUsers()
+                self?.tableView.reloadData()
+            } else {
+                self?.tableView.refreshControl = nil
             }
         }
-        self.viewModel.fetchUsers()
+        self.viewModel.fetchInitialUsers()
     }
     private func bindView() {
         viewModel.usersPublisher
            .receive(on: DispatchQueue.main)
            .sink { [weak self] users in
                if users.isEmpty == true {
-                   self?.showNoConnection()
+                   if self?.fromRefreshController == true {
+                       self?.viewModel.setDataFromCache()
+                   } else {
+                       self?.showNoConnection()
+                   }
                } else {
                    if self?.fromRefreshController == true || self?.isLoadingPaginated == true{
                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -117,9 +124,12 @@ class HomeViewController: UIViewController, Storyboarded {
         }
     }
     private func onBottomRow() {
-        isLoadingPaginated = true
         if NetworkManager.isReachable == true {
-            self.viewModel.fetchUsers()
+            isLoadingPaginated = true
+            dataSource.showBottomSection(show: true)
+            if let lastUser = users.last {
+                self.viewModel.fetchUsers(from: lastUser.id)
+            }
         }
     }
     private var fromRefreshController = false
@@ -152,14 +162,8 @@ extension HomeViewController: UITableViewDelegate {
         coordinator.showDetails(self.users[indexPath.row].login)
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if searchText == "" && indexPath.row == dataSource.count - 10, isLoadingPaginated == false {
+        if searchText == "" && indexPath.row == dataSource.count - 1, isLoadingPaginated == false {
             onBottomRow()
-            if NetworkManager.isReachable == true {
-                dataSource.showBottomSection(show: true)
-                if indexPath.section != 0 {
-                    cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
-                }
-            }
         }
     }
 }
