@@ -47,6 +47,7 @@ class RemoteImage: RemoteImageProtocol {
 }
 extension UIImageView {
     func loadFrom(_ url: String, placeHolder: String, _ completion: @escaping () -> Void = {}) {
+        self.image = nil
         guard let url = URL(string: url) else {
             return
         }
