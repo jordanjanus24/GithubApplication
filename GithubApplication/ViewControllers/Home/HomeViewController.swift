@@ -139,8 +139,11 @@ class HomeViewController: UIViewController, Storyboarded {
     }
     private var fromRefreshController = false
     @objc func refreshData(_ sender: UIRefreshControl) {
-        fromRefreshController = true
-        initialData()
+        if fromRefreshController != true {
+            fromRefreshController = true
+            initialData()
+        }
+        
    }
 }
 extension HomeViewController: UISearchResultsUpdating {

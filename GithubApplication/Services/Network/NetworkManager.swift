@@ -20,6 +20,7 @@ class NetworkManager: NSObject {
     func start() {
         do {
             self.reachability = try Reachability()
+            self.reachability.allowsCellularConnection = true
             if reachability.connection != .unavailable {
                 self.isReachable = true
             }
